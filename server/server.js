@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import axios from 'axios';
+
+import chatRoutes from './routes/chatRoutes.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -19,6 +20,9 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+
+// Chat routes 
+app.use('/api/chat', chatRoutes);
 
 // Start the server
 app.listen(port, () => {
