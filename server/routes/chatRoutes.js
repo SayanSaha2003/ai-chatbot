@@ -19,6 +19,8 @@ router.post("/", async (req, res) => {
                     },
                     ...messages,
                 ],
+                temperature: 0.7,
+                max_tokens: 500,
             },
             {
                 headers: {
