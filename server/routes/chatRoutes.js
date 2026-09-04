@@ -4,14 +4,21 @@ import axios from "axios";
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-    const { message } = req.body;
+    const { messages } = req.body;
 
     try {
         const response = await axios.post(
             "https://openrouter.ai/api/v1/chat/completions",
             {
                 model: "gpt-4o-mini",
-                messages: [{ role: "user", content: message }],
+                messages: [
+                    {
+                        role: "system",
+                        content:
+                            "You are a helpful AI assistant. Give clear and concise answers.",
+                    },
+                    ...messages,
+                ],
             },
             {
                 headers: {
