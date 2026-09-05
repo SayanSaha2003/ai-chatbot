@@ -1,28 +1,29 @@
+import { useState } from "react";
 import Input from "./Input";
 
 function Chat() {
-    const messages = [
+    const [messages, setMessages] = useState([
         {
             role: "assistant",
             content:
                 "Hello! 👋\nI'm your AI assistant. You can ask me anything — from coding help to learning new topics, or just have a chat!\n\nHow can I help you today?",
         },
-        {
-            role: "user",
-            content: "My favorite language is JavaScript.",
-        },
-        {
-            role: "assistant",
-            content:
-                "Nice! JavaScript is a great choice. It's versatile and widely used.",
-        },
-    ];
+    ]);
+
+    const handleSend = (userMessage) => {
+        setMessages((prev) => [
+            ...prev,
+            {
+                role: "user",
+                content: userMessage,
+            },
+        ]);
+    };
 
     return (
         <div className="flex h-screen items-center justify-center bg-gray-100 p-4">
             <div className="flex h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-lg">
-                
-                {/* Chat messages */}
+
                 <div className="flex-1 space-y-6 overflow-y-auto p-6">
                     {messages.map((message, index) => (
                         <div
@@ -46,8 +47,8 @@ function Chat() {
                     ))}
                 </div>
 
-                {/* Input */}
-                <Input />
+                <Input onSend={handleSend} />
+
             </div>
         </div>
     );

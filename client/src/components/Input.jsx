@@ -1,9 +1,24 @@
-function Input() {
+import { useState } from "react";
+
+function Input({ onSend }) {
+    const [userMessage, setUserMessage] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (!userMessage.trim()) return;
+
+        onSend(userMessage);
+        setUserMessage("");
+    };
+
     return (
         <div className="border-t border-gray-200 p-4">
-            <form className="flex items-center gap-3">
+            <form onSubmit={handleSubmit} className="flex items-center gap-3">
                 <input
                     type="text"
+                    value={userMessage}
+                    onChange={(e) => setUserMessage(e.target.value)}
                     placeholder="Type your message..."
                     className="flex-1 rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
                 />
