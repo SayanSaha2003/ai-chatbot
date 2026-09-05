@@ -27,10 +27,10 @@ function Chat() {
             // Send the updated messages to the backend and get the AI response
             const response = await sendMessage(newMessages);
 
-            // 
+            //
             const reader = response.body.getReader(); // Read the response stream
-            const decoder = new TextDecoder();  //  Decode the stream into text
-            
+            const decoder = new TextDecoder(); //  Decode the stream into text
+
             let assistantMessage = "";
             setMessages((prev) => [
                 ...prev,
@@ -47,7 +47,7 @@ function Chat() {
                 const chunk = decoder.decode(value, { stream: true });
                 assistantMessage += chunk;
 
-                // Update the assistant message in the messages state 
+                // Update the assistant message in the messages state
                 setMessages((prev) => {
                     const updatedMessages = [...prev];
                     updatedMessages[updatedMessages.length - 1] = {
@@ -63,8 +63,8 @@ function Chat() {
     };
 
     return (
-        <div className="flex h-screen items-center justify-center bg-gray-100 p-4">
-            <div className="flex h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-lg">
+        <div className="flex h-full min-h-0 items-center justify-center bg-gray-100 p-4">
+            <div className="flex h-full w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-lg">
                 <div className="flex-1 space-y-6 overflow-y-auto p-6">
                     {messages.map((message, index) => (
                         <div
@@ -87,7 +87,6 @@ function Chat() {
                         </div>
                     ))}
                 </div>
-
                 <Input onSend={handleSend} />
             </div>
         </div>
