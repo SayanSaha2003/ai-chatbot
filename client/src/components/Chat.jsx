@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "./Input";
+import { sendMessage } from "../services/chatService";
 
 function Chat() {
     const [messages, setMessages] = useState([
@@ -10,20 +11,37 @@ function Chat() {
         },
     ]);
 
-    const handleSend = (userMessage) => {
-        setMessages((prev) => [
-            ...prev,
+    const handleSend = async (userMessage) => {
+        const newMessages = [
+            ...messages,
             {
                 role: "user",
                 content: userMessage,
             },
-        ]);
+        ];
+
+        setMessages(newMessages);
+
+        try {
+            const response = await sendMessage(newMessages);
+
+            const data = await response.text();
+
+            setMessages((prev) => [
+                ...prev,
+                {
+                    role: "assistant",
+                    content: data,
+                },
+            ]);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
         <div className="flex h-screen items-center justify-center bg-gray-100 p-4">
             <div className="flex h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-lg">
-
                 <div className="flex-1 space-y-6 overflow-y-auto p-6">
                     {messages.map((message, index) => (
                         <div
@@ -48,7 +66,6 @@ function Chat() {
                 </div>
 
                 <Input onSend={handleSend} />
-
             </div>
         </div>
     );
