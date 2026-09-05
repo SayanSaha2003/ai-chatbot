@@ -1,16 +1,77 @@
-# React + Vite
+# AI Chatbot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple full-stack AI chatbot built with React, Node.js, Express.js, and OpenRouter.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 💬 Continuous conversation
+- 🧠 Conversation context
+- 🌊 Streaming AI responses
+- 🤖 OpenRouter AI integration
+- 📱 Responsive UI
+- 🚀 Deployed on Render
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** React, Vite, Tailwind CSS
+- **Backend:** Node.js, Express.js
+- **AI:** OpenRouter (`gpt-4o-mini`)
+- **Deployment:** Render
 
-## Expanding the ESLint configuration
+## Architecture
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+React → Express API → OpenRouter → Streaming Response → React
+
+## Project Structure
+
+ai-chatbot/
+├── client/
+│   └── src/
+│       ├── components/
+│       └── services/
+├── server/
+│   ├── routes/
+│   ├── server.js
+│   └── .env
+└── README.md
+
+## Environment Variables
+
+### Backend
+
+OPENROUTER_API_KEY=your_api_key
+
+### Frontend
+
+VITE_API_URL=your_backend_url
+
+## Run Locally
+
+### Backend
+
+cd server
+npm install
+npm start
+
+### Frontend
+
+cd client
+npm install
+npm run dev
+
+## Deployment
+
+The frontend and backend are deployed separately on Render:
+
+- Frontend → Render Static Site
+- Backend → Render Web Service
+
+## Future Improvements
+
+- Authentication
+- Chat history
+- Database integration
+- Multiple conversations
+- Markdown/code formatting
+- Improved error handling
+
