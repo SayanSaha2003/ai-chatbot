@@ -3,6 +3,7 @@ import Input from "./Input";
 import { sendMessage } from "../services/chatService";
 
 function Chat() {
+    // State to hold the chat messages
     const [messages, setMessages] = useState([
         {
             role: "assistant",
@@ -11,6 +12,7 @@ function Chat() {
         },
     ]);
 
+    // Add user message to the messages state
     const handleSend = async (userMessage) => {
         const newMessages = [
             ...messages,
@@ -19,21 +21,42 @@ function Chat() {
                 content: userMessage,
             },
         ];
-
         setMessages(newMessages);
 
         try {
+            // Send the updated messages to the backend and get the AI response
             const response = await sendMessage(newMessages);
 
-            const data = await response.text();
-
+            // 
+            const reader = response.body.getReader(); // Read the response stream
+            const decoder = new TextDecoder();  //  Decode the stream into text
+            
+            let assistantMessage = "";
             setMessages((prev) => [
                 ...prev,
                 {
                     role: "assistant",
-                    content: data,
+                    content: "",
                 },
             ]);
+            // Stream the AI response to the messages state
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value, { stream: true });
+                assistantMessage += chunk;
+
+                // Update the assistant message in the messages state 
+                setMessages((prev) => {
+                    const updatedMessages = [...prev];
+                    updatedMessages[updatedMessages.length - 1] = {
+                        role: "assistant",
+                        content: assistantMessage,
+                    };
+                    return updatedMessages;
+                });
+            }
         } catch (error) {
             console.error(error);
         }
